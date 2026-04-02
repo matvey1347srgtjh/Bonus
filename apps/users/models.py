@@ -6,7 +6,18 @@ class Employee(AbstractUser):
     department = models.CharField(max_length=255, blank=True)
     position = models.CharField(max_length=255, blank=True)
     hired_at = models.DateField(null=True, blank=True)
+    date_of_birth = models.DateField(null=True, blank=True)
     phone = models.CharField(max_length=20, blank=True)
+    mentor = models.ForeignKey(
+        'self', 
+        on_delete=models.SET_NULL, 
+        null=True, 
+        blank=True, 
+        related_name='interns'
+    )
+    is_intern = models.BooleanField(default=False)
+    trial_passed = models.BooleanField(default=False)
+    profile_bonus_received = models.BooleanField(default=False)
 
     class Meta:
         verbose_name = "Сотрудник"
