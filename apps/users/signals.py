@@ -24,7 +24,7 @@ def check_profile_completion(sender, instance, **kwargs):
             from apps.wallets.services import WalletService
             WalletService.add_coins(
                 employee=instance,
-                amount=300,
+                amount=150,
                 reason="Цифровой след: Полное заполнение профиля"
             )
             instance.profile_bonus_received = True
