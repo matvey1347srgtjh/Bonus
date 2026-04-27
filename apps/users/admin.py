@@ -17,8 +17,8 @@ class EmployeeResource(resources.ModelResource):
     class Meta:
         model = Employee
         fields = (
-            'username', 'first_name', 'last_name', 'middle_name', 
-            'email', 'department', 'position', 'date_of_birth'
+            'username', 'email', 'department', 'is_intern',
+            'password', 'needs_password_change'
         )
         import_id_fields = ('username',)
 

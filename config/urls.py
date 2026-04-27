@@ -27,9 +27,8 @@ admin.site.index_title = "Добро пожаловать в систему ло
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('merch/', include('apps.merch.urls')),
+    path('users/', include('apps.users.urls')),
     path('login/', auth_views.LoginView.as_view(), name='login'),
-    path('logout/', auth_views.LogoutView.as_view(next_page='login'), name='logout'),
-    path('password_change/', auth_views.PasswordChangeView.as_view(template_name='registration/password_change.html', success_url='/merch/'), name='password_change'),
 ]
 
 if settings.DEBUG:

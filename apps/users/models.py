@@ -29,16 +29,11 @@ class Employee(AbstractUser):
     
     def clean(self):
         super().clean()
-        
-        if self.mentor and not self.is_intern:
-            raise ValidationError({
-                'mentor': "Ментора можно назначить только сотруднику со статусом 'Стажер'."
-            })
-            
-        if self.mentor_id and self.pk and self.mentor_id == self.pk:
-            raise ValidationError({
-                'mentor': "Сотрудник не может быть наставником самому себе."
-            })
+        if self.mentor:
+            if not self.is_intern:
+                raise ValidationError("Ментора можно назначить только стажеру.")
+            if self.pk and self.mentor_id == self.pk:
+                raise ValidationError("Нельзя быть ментором самому себе.")
 
     class Meta:
         verbose_name = "Сотрудник"

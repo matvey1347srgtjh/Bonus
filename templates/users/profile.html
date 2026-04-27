@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+
+{% block title %}Личный кабинет | ИРЗ Бонус{% endblock %}
+
+{% block content %}
+<div class="shop-layout">
+    
+    <aside class="sidebar">
+        <h3 class="mb-10">Ваш статус</h3>
+        <div class="mb-20">
+            <p class="text-small text-muted">Должность:</p>
+            <p class="fw-bold">{{ employee.position|default:"Не указана" }}</p>
+        </div>
+        
+        <div class="mb-20">
+            <p class="text-small text-muted">Тип сотрудника:</p>
+            <p class="fw-bold">
+                {% if employee.is_intern %}Стажер{% else %}Штатный сотрудник{% endif %}
+            </p>
+        </div>
+
+        {% if employee.is_intern %}
+        <div class="mb-20">
+            <p class="text-small text-muted">Наставник:</p>
+            <p class="fw-bold">{{ employee.mentor.get_full_name|default:"Не назначен" }}</p>
+        </div>
+        {% endif %}
+
+        <div class="mt-30">
+            <p class="text-small text-muted">Бонус за профиль:</p>
+            <p class="fw-bold">
+                {% if employee.profile_bonus_received %}Получен{% else %}Не получен{% endif %}
+            </p>
+        </div>
+    </aside>
+
+    <main>
+        <div class="login-card w-100 mt-0 text-left">
+            <h2 class="mb-10">Редактирование профиля</h2>
+            <p class="text-muted mb-30">Актуальные данные необходимы для корректного начисления бонусов и выдачи мерча.</p>
+
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="error-message text-center">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+            <form method="post">
+                {% csrf_token %}
+                
+                <div class="form-group">
+                    <label class="fw-bold">Табельный номер</label>
+                    <input type="text" value="{{ employee.username }}" readonly class="form-control" style="background-color: #f5f5f5; cursor: not-allowed;">
+                </div>
+
+                <div class="form-group mt-10">
+                    <label class="fw-bold">Фамилия</label>
+                    {{ form.last_name }}
+                </div>
+
+                <div class="form-group mt-10">
+                    <label class="fw-bold">Имя</label>
+                    {{ form.first_name }}
+                </div>
+
+                <div class="form-group mt-10">
+                    <label class="fw-bold">Отчество</label>
+                    {{ form.middle_name }}
+                </div>
+
+                <div class="product-grid mt-10" style="grid-template-columns: 1fr 1fr;">
+                    <div class="form-group">
+                        <label class="fw-bold">Дата рождения</label>
+                        {{ form.date_of_birth }}
+                    </div>
+                    <div class="form-group">
+                        <label class="fw-bold">Телефон</label>
+                        {{ form.phone }}
+                    </div>
+                </div>
+
+                <div class="form-group mt-10">
+                    <label class="fw-bold">Отдел</label>
+                    {{ form.department }}
+                </div>
+
+                <div class="form-group mt-10">
+                    <label class="fw-bold">Должность</label>
+                    {{ form.position }}
+                </div>
+
+                <button type="submit" class="btn w-100 mt-30">Сохранить изменения</button>
+            </form>
+        </div>
+    </main>
+</div>
+{% endblock %}

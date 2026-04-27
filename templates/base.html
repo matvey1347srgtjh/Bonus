@@ -11,9 +11,11 @@
         <div class="logo">ИРЗ БОНУС</div>
         <nav class="header-nav">
             {% if user.is_authenticated %}
-                <span class="user-info">{{ user.username }} | <strong>{{ user.wallet.balance }}</strong> Баллов</span>
+                <a href="{% url 'users:profile' %}" class="user-info">
+                {{ user.username }} | <strong>{{ user.wallet.balance }}</strong> Баллов
+            </a>
                 <a href="{% url 'merch:index' %}">Магазин</a>
-                <form action="{% url 'logout' %}" method="post" class="logout-form">
+                <form action="{% url 'users:logout' %}" method="post" class="logout-form">
                     {% csrf_token %}
                     <button type="submit" class="logout-btn">Выйти</button>
                 </form>
