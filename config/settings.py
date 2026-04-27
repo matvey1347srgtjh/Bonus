@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'apps.rewards',
     'apps.users',
     'apps.wallets',
+    'import_export',
 ]
 
 MIDDLEWARE = [
@@ -128,6 +129,9 @@ CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_TIMEZONE = TIME_ZONE
 
+LOGIN_REDIRECT_URL = '/merch/'
+LOGOUT_REDIRECT_URL = '/login/'
+
 CELERY_BEAT_SCHEDULE = {
     'check-plans-every-night': {
         'task': 'apps.rewards.tasks.check_production_plans_and_reward',
@@ -139,6 +143,7 @@ CELERY_BEAT_SCHEDULE = {
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = 'static/'
+STATICFILES_DIRS = [BASE_DIR / 'static',]
 
 MEDIA_URL = 'media/'
 MEDIA_ROOT = BASE_DIR / 'media'

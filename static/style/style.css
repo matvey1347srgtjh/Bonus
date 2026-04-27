@@ -1,0 +1,220 @@
+:root {
+    --irz-blue: #002856;
+    --irz-white: #ffffff;
+    --irz-light: #f4f7fa;
+    --irz-text: #333333;
+    --irz-gray: #777777;
+    --irz-border: #dddddd;
+    --shadow: 0 4px 15px rgba(0,0,0,0.08);
+}
+
+body {
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    margin: 0;
+    background-color: var(--irz-light);
+    color: var(--irz-text);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.container {
+    flex: 1;
+    max-width: 1200px;
+    margin: 30px auto;
+    padding: 0 20px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+header {
+    background-color: var(--irz-blue);
+    color: var(--irz-white);
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+}
+
+header a {
+    color: var(--irz-white);
+    text-decoration: none;
+    font-weight: 500;
+    margin-left: 20px;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.btn {
+    background-color: var(--irz-blue);
+    color: var(--irz-white);
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+    transition: background-color 0.2s;
+}
+
+.btn:hover {
+    background-color: #003a7d;
+}
+
+.btn:disabled {
+    background-color: var(--irz-gray);
+    cursor: not-allowed;
+}
+
+.shop-layout {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 40px;
+}
+
+.sidebar {
+    background: var(--irz-white);
+    padding: 25px;
+    border-radius: 8px;
+    height: fit-content;
+    box-shadow: var(--shadow);
+}
+
+.sidebar h3 {
+    color: var(--irz-blue);
+    font-size: 1.1rem;
+    border-bottom: 2px solid var(--irz-light);
+    padding-bottom: 10px;
+    margin-top: 0;
+}
+
+.category-link {
+    display: block;
+    padding: 10px 0;
+    color: var(--irz-text);
+    text-decoration: none;
+}
+
+.category-link.active {
+    color: var(--irz-blue);
+    font-weight: bold;
+}
+
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 25px;
+}
+
+.product-card {
+    background: var(--irz-white);
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.product-img {
+    height: 180px;
+    object-fit: contain;
+    margin-bottom: 15px;
+    width: 100%;
+}
+
+.product-price {
+    color: var(--irz-blue);
+    font-size: 1.3rem;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+.login-card {
+    background: var(--irz-white);
+    max-width: 400px;
+    margin: 60px auto;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+    text-align: center;
+}
+
+.form-group {
+    text-align: left;
+    margin-bottom: 15px;
+}
+
+input[type="text"], 
+input[type="password"] {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--irz-border);
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.error-message {
+    background: #fee;
+    color: #b00;
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+}
+
+.text-center { text-align: center; }
+.text-left { text-align: left; }
+.text-muted { color: var(--irz-gray); font-size: 0.9rem; }
+.text-small { font-size: 0.8rem; }
+.fw-bold { font-weight: bold; }
+.mb-10 { margin-bottom: 10px; }
+.mb-30 { margin-bottom: 30px; }
+.mt-10 { margin-top: 10px; }
+.mt-20 { margin-top: 20px; }
+.mt-30 { margin-top: 30px; }
+.w-100 { width: 100%; }
+
+footer {
+    background-color: var(--irz-blue);
+    color: rgba(255,255,255,0.6);
+    text-align: center;
+    padding: 1.5rem;
+    font-size: 0.85rem;
+    margin-top: auto;
+}
+
+.header-nav {
+    display: flex;
+    align-items: center;
+}
+
+.user-info {
+    margin-right: 20px;
+    font-size: 0.9rem;
+}
+
+.logout-form {
+    display: inline;
+    margin-left: 20px;
+}
+
+.logout-btn {
+    background: none;
+    border: none;
+    color: var(--irz-white);
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    padding: 0;
+    transition: opacity 0.3s;
+}
+
+.logout-btn:hover {
+    opacity: 0.8;
+}

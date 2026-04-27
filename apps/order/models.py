@@ -11,7 +11,7 @@ class Order(models.Model):
         ('CANCELED', 'Отменен'),
     ]
 
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='merch_orders')
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='NEW')
     total_price = models.PositiveIntegerField()
     qr_code_key = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)

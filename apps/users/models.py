@@ -9,6 +9,12 @@ class Employee(AbstractUser):
     hired_at = models.DateField(null=True, blank=True, verbose_name="Дата приема")
     date_of_birth = models.DateField(null=True, blank=True, verbose_name="Дата рождения")
     phone = models.CharField(max_length=20, blank=True, verbose_name="Телефон")
+    
+    needs_password_change = models.BooleanField(
+        default=True, 
+        verbose_name="Требуется смена пароля"
+    )
+    
     mentor = models.ForeignKey(
         'self', 
         on_delete=models.SET_NULL, 
@@ -50,7 +56,7 @@ class CheckIn(models.Model):
         verbose_name = "Проход через проходную"
         verbose_name_plural = "Логи проходной"
 
-def __str__(self):
+    def __str__(self):
         direction = "Вход" if self.is_entry else "Выход"
         return f"{self.employee.last_name} {self.employee.first_name} | {direction} | {self.timestamp.strftime('%d.%m.%Y %H:%M')}"
     
