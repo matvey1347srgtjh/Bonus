@@ -29,29 +29,28 @@ def profile_view(request):
         form = ProfileUpdateForm(request.POST, instance=employee)
         if form.is_valid():
             form.save()
-            
             if not employee.profile_bonus_received:
                 reward_config = RewardSetting.objects.filter(code='profile_complete', is_active=True).first()
-                
                 if reward_config and hasattr(employee, 'wallet'):
                     employee.wallet.balance += reward_config.amount
                     employee.wallet.save()
-                    
                     employee.profile_bonus_received = True
                     employee.save()
                     messages.success(request, f"Профиль заполнен! Вам начислено {reward_config.amount} Баллов.")
                 else:
                     employee.profile_bonus_received = True
                     employee.save()
-                    messages.warning(request, "Профиль сохранен, но правило начисления 'profile_complete' не найдено.")
+                    messages.warning(request, "Профиль сохранен.")
             else:
                 messages.success(request, "Изменения сохранены.")
-                
             return redirect('users:profile')
     else:
         form = ProfileUpdateForm(instance=employee)
     
+    orders = employee.merch_orders.all().prefetch_related('items__product').order_by('-created_at')
+    
     return render(request, 'users/profile.html', {
         'form': form,
-        'employee': employee
+        'employee': employee,
+        'orders': orders
     })

@@ -38,12 +38,7 @@
                     <div class="product-price">{{ product.price }} баллов</div>
                     <p class="text-small text-muted">Остаток: {{ product.stock }} шт.</p>
                     
-                    <form action="#" method="post" class="mt-20">
-                        {% csrf_token %}
-                        <button type="submit" class="btn w-100" {% if product.stock == 0 %}disabled{% endif %}>
-                            {% if product.stock > 0 %}Заказать{% else %}Нет в наличии{% endif %}
-                        </button>
-                    </form>
+                    <a href="{% url 'orders:cart_add' product.id %}" class="btn">Добавить в корзину</a>
                 </div>
             {% empty %}
                 <div class="login-card w-100 text-center">

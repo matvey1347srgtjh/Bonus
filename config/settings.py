@@ -130,8 +130,9 @@ CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_TIMEZONE = TIME_ZONE
 
-LOGIN_REDIRECT_URL = '/merch/'
-LOGOUT_REDIRECT_URL = '/login/'
+LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = 'merch:index'
+LOGOUT_REDIRECT_URL = 'login'
 
 CELERY_BEAT_SCHEDULE = {
     'check-plans-every-night': {

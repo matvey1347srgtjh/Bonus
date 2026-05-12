@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <h2 class="mb-30">Ваша корзина</h2>
+
+    {% if cart_items %}
+    <div class="shop-layout">
+        <div class="cart-list">
+            {% for item in cart_items %}
+            <div class="cart-item">
+                <div class="cart-item-info">
+                    {% if item.product.image %}
+                        <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" class="cart-item-img">
+                    {% endif %}
+                    <div>
+                        <h3 class="mb-10">{{ item.product.name }}</h3>
+                        <p class="text-muted">{{ item.product.category.name }}</p>
+                    </div>
+                </div>
+                
+                <div class="cart-item-actions">
+                    <div class="cart-item-price">
+                        {{ item.quantity }} x {{ item.product.price }} б.
+                    </div>
+                    <div class="fw-bold mb-10">= {{ item.total_price }} б.</div>
+                    <a href="{% url 'orders:cart_remove' item.product.id %}" class="text-danger text-small">Удалить</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="sidebar">
+            <h3>Итого</h3>
+            <div class="mt-20">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
+                    <span>К оплате:</span>
+                    <span class="product-price" style="margin: 0;">{{ total_price }} б.</span>
+                </div>
+                
+                <form action="{% url 'orders:checkout' %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn w-100" {% if request.user.wallet.balance < total_price %}disabled{% endif %}>
+                        Оформить заказ
+                    </button>
+                </form>
+                
+                {% if request.user.wallet.balance < total_price %}
+                    <p class="error-message mt-10 text-small">
+                        Недостаточно средств (Баланс: {{ request.user.wallet.balance }} б.)
+                    </p>
+                {% endif %}
+                
+                <a href="{% url 'merch:index' %}" class="category-link text-center mt-10">← Назад к покупкам</a>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="login-card">
+        <h3>Корзина пуста</h3>
+        <p class="text-muted mb-30">Самое время выбрать что-нибудь интересное!</p>
+        <a href="{% url 'merch:index' %}" class="btn">Перейти в магазин</a>
+    </div>
+    {% endif %}
+</div>
+
+{% endblock %}

@@ -19,15 +19,23 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
+from django.shortcuts import redirect
 
 admin.site.site_header = "Панель управления ИРЗ-Бонус"
 admin.site.site_title = "Портал АО ИРЗ"
 admin.site.index_title = "Добро пожаловать в систему лояльности"
 
+def root_redirect(request):
+    if request.user.is_authenticated:
+        return redirect('merch:index')
+    return redirect('login')
+
 urlpatterns = [
+    path('', root_redirect, name='root'),
     path('admin/', admin.site.urls),
     path('merch/', include('apps.merch.urls')),
     path('users/', include('apps.users.urls')),
+    path('orders/', include('apps.order.urls')),
     path('login/', auth_views.LoginView.as_view(), name='login'),
 ]
 
