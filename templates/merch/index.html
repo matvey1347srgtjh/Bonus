@@ -1,49 +1,83 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block title %}Магазин мерча | ИРЗ Бонус{% endblock %}
 
 {% block content %}
 <div class="shop-layout">
-    <aside class="sidebar">
+    <aside class="sidebar glass-card">
         <h3>Поиск</h3>
-        <form method="get" action="{% url 'merch:index' %}">
-            <input type="text" name="q" placeholder="Найти..." value="{{ request.GET.q|default:'' }}">
-            <button type="submit" class="btn w-100 mt-10">Найти</button>
+        <form method="get" action="{% url 'merch:index' %}" class="search-form">
+            <div class="input-wrapper">
+                <input type="text" name="q" placeholder="Найти..." value="{{ request.GET.q|default:'' }}">
+            </div>
+            <button type="submit" class="btn-primary w-100">Найти</button>
         </form>
 
         <h3 class="mt-30">Категории</h3>
-        <nav>
-            <a href="{% url 'merch:index' %}" class="category-link {% if not request.GET.category %}active{% endif %}">Все товары</a>
-            {% for cat in categories %}
-                <a href="?category={{ cat.slug }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}" 
-                   class="category-link {% if request.GET.category == cat.slug %}active{% endif %}">
-                    {{ cat.name }}
+        <div class="custom-select-wrapper">
+            <div class="select-trigger glass-card">
+                <span>
+                    {% if request.GET.category %}
+                        {% for cat in categories %}
+                            {% if request.GET.category == cat.slug %}{{ cat.name }}{% endif %}
+                        {% endfor %}
+                    {% else %}
+                        Все товары
+                    {% endif %}
+                </span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </div>
+            
+            <nav class="category-dropdown glass-card">
+                <a href="{% url 'merch:index' %}{% if request.GET.q %}?q={{ request.GET.q }}{% endif %}" 
+                class="category-link {% if not request.GET.category %}active{% endif %}">
+                    Все товары
                 </a>
-            {% endfor %}
-        </nav>
+                {% for cat in categories %}
+                    <a href="?category={{ cat.slug }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}" 
+                    class="category-link {% if request.GET.category == cat.slug %}active{% endif %}">
+                        {{ cat.name }}
+                    </a>
+                {% endfor %}
+            </nav>
+        </div>
     </aside>
 
-    <main>
+    <main class="products-area">
         <div class="product-grid">
             {% for product in products %}
-                <div class="product-card">
-                    {% if product.image %}
-                        <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-img">
-                    {% else %}
-                        <div class="product-img" style="background:#eee;"></div>
-                    {% endif %}
+                <div class="product-card glass-card">
+                    <div class="product-img-wrapper">
+                        {% if product.image %}
+                            <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-img">
+                        {% else %}
+                            <div class="product-img-placeholder"></div>
+                        {% endif %}
+                    </div>
                     
-                    <h4 class="mb-10">{{ product.name }}</h4>
-                    <p class="text-muted mb-10">{{ product.category.name }}</p>
-                    <div class="product-price">{{ product.price }} баллов</div>
-                    <p class="text-small text-muted">Остаток: {{ product.stock }} шт.</p>
-                    
-                    <a href="{% url 'orders:cart_add' product.id %}" class="btn">Добавить в корзину</a>
+                    <div class="product-info">
+                        <span class="category-tag">{{ product.category.name }}</span>
+                        <h4>{{ product.name }}</h4>
+                        
+                        <div class="product-footer">
+                            <div class="product-price">
+                                {{ product.price }}
+                                <img src="{% static 'images/ball-blue.svg' %}" alt="Б" class="currency-icon">
+                            </div>
+                            <span class="stock-info">В наличии: {{ product.stock }}</span>
+                        </div>
+                        
+                        <a href="{% url 'orders:cart_add' product.id %}" class="btn-buy">
+                            В корзину
+                        </a>
+                    </div>
                 </div>
             {% empty %}
-                <div class="login-card w-100 text-center">
-                    <h3>Товары не найдены</h3>
-                    <a href="{% url 'merch:index' %}" class="btn mt-20">Сбросить</a>
+                <div class="empty-state glass-card">
+                    <h3>Ничего не нашлось</h3>
+                    <p>Попробуйте изменить запрос или категорию</p>
+                    <a href="{% url 'merch:index' %}" class="btn-primary">Сбросить всё</a>
                 </div>
             {% endfor %}
         </div>

@@ -1,67 +1,85 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
 <div class="container">
-    <h2 class="mb-30">Ваша корзина</h2>
+    <h2 class="auth-title mb-30">Ваша корзина</h2>
 
     {% if cart_items %}
-    <div class="shop-layout">
+    <div class="cart-page-layout">
         <div class="cart-list">
             {% for item in cart_items %}
-            <div class="cart-item">
+            <div class="cart-item glass-card">
                 <div class="cart-item-info">
-                    {% if item.product.image %}
-                        <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" class="cart-item-img">
-                    {% endif %}
-                    <div>
-                        <h3 class="mb-10">{{ item.product.name }}</h3>
-                        <p class="text-muted">{{ item.product.category.name }}</p>
+                    <div class="cart-img-wrapper">
+                        {% if item.product.image %}
+                            <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" class="cart-item-img">
+                        {% else %}
+                            <div class="product-img-placeholder small"></div>
+                        {% endif %}
+                    </div>
+                    <div class="cart-text">
+                        <h4>{{ item.product.name }}</h4>
+                        <span class="category-tag">{{ item.product.category.name }}</span>
                     </div>
                 </div>
                 
-                <div class="cart-item-actions">
-                    <div class="cart-item-price">
-                        {{ item.quantity }} x {{ item.product.price }} б.
+                <div class="cart-item-details">
+                    <div class="cart-quantity-price">
+                        <span class="qty">{{ item.quantity }} шт.</span>
+                        <span class="multiplier">×</span>
+                        <span class="price-each">{{ item.product.price }} <img src="{% static 'images/ball-blue.svg' %}" class="currency-icon-small"></span>
                     </div>
-                    <div class="fw-bold mb-10">= {{ item.total_price }} б.</div>
-                    <a href="{% url 'orders:cart_remove' item.product.id %}" class="text-danger text-small">Удалить</a>
+                    <div class="cart-total-price">
+                        {{ item.total_price }} <img src="{% static 'images/ball-blue.svg' %}" class="currency-icon">
+                    </div>
+                    <a href="{% url 'orders:cart_remove' item.product.id %}" class="remove-btn" title="Удалить">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                    </a>
                 </div>
             </div>
             {% endfor %}
         </div>
 
-        <div class="sidebar">
+        <aside class="sidebar glass-card">
             <h3>Итого</h3>
-            <div class="mt-20">
-                <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
+            <div class="checkout-summary">
+                <div class="summary-row">
                     <span>К оплате:</span>
-                    <span class="product-price" style="margin: 0;">{{ total_price }} б.</span>
+                    <span class="total-amount">{{ total_price }} <img src="{% static 'images/ball-blue.svg' %}" class="currency-icon"></span>
                 </div>
                 
-                <form action="{% url 'orders:checkout' %}" method="post">
+                <form action="{% url 'orders:checkout' %}" method="post" class="mt-20">
                     {% csrf_token %}
-                    <button type="submit" class="btn w-100" {% if request.user.wallet.balance < total_price %}disabled{% endif %}>
+                    <button type="submit" class="btn-auth w-100" {% if request.user.wallet.balance < total_price %}disabled{% endif %}>
                         Оформить заказ
                     </button>
                 </form>
                 
                 {% if request.user.wallet.balance < total_price %}
-                    <p class="error-message mt-10 text-small">
-                        Недостаточно средств (Баланс: {{ request.user.wallet.balance }} б.)
-                    </p>
+                    <div class="error-banner mt-15">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                        <span>
+                            Недостаточно: {{ request.user.wallet.balance }} 
+                            <img src="/static/images/ball-blue.svg" class="currency-icon-small">
+                        </span>
+                    </div>
                 {% endif %}
                 
-                <a href="{% url 'merch:index' %}" class="category-link text-center mt-10">← Назад к покупкам</a>
+                <a href="{% url 'merch:index' %}" class="back-link mt-20">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                    Вернуться в магазин
+                </a>
             </div>
-        </div>
+        </aside>
     </div>
     {% else %}
-    <div class="login-card">
+    <div class="empty-state glass-card">
+        <div class="empty-icon">🛒</div>
         <h3>Корзина пуста</h3>
-        <p class="text-muted mb-30">Самое время выбрать что-нибудь интересное!</p>
-        <a href="{% url 'merch:index' %}" class="btn">Перейти в магазин</a>
+        <p>Самое время выбрать что-нибудь интересное!</p>
+        <a href="{% url 'merch:index' %}" class="btn-auth" style="display: inline-flex; width: auto; padding: 12px 30px;">Перейти в магазин</a>
     </div>
     {% endif %}
 </div>
-
 {% endblock %}

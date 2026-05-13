@@ -3,39 +3,54 @@
 {% block title %}Вход в систему | ИРЗ Бонус{% endblock %}
 
 {% block content %}
-<div class="login-card">
-    <h2 class="irz-blue-text mb-10">Вход</h2>
-    <p class="text-muted mb-30">Портал программы лояльности АО «Ижевский радиозавод»</p>
+<div class="auth-container">
+    <div class="login-card glass-card">
+        <div class="login-header">
+            <div class="logo">ИРЗ<span>БОНУС</span></div>
+            <h2 class="auth-title">Авторизация</h2>
+            <p class="auth-subtitle">Портал программы лояльности АО «Ижевский радиозавод»</p>
+        </div>
 
-    <form method="post" action="{% url 'login' %}">
-        {% csrf_token %}
-        
-        {% if form.errors %}
-            <div class="error-message text-left text-small">
-                Неверный табельный номер или пароль.
+        <form method="post" action="{% url 'login' %}" class="auth-form">
+            {% csrf_token %}
+            
+            {% if form.errors %}
+                <div class="error-banner">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                    <span>Неверный табельный номер или пароль</span>
+                </div>
+            {% endif %}
+
+            <div class="form-group">
+                <label for="id_username">Табельный номер</label>
+                <div class="input-relative">
+                    {{ form.username }}
+                </div>
             </div>
-        {% endif %}
 
-        <div class="form-group">
-            <label for="id_username" class="fw-bold">Табельный номер</label>
-            {{ form.username }}
+            <div class="form-group mt-20">
+                <label for="id_password">Пароль</label>
+                <div class="input-relative">
+                    {{ form.password }}
+                </div>
+            </div>
+
+            <button type="submit" class="btn-auth">
+                <span>Войти в систему</span>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+            </button>
+        </form>
+
+        <div class="auth-footer">
+            <div class="instruction-box">
+                <span class="ins-title">Инструкция для сотрудников:</span>
+                <ul>
+                    <li>Логин — ваш табельный номер</li>
+                    <li>Пароль — стандартный (при первом входе)</li>
+                    <li>После входа потребуется смена пароля</li>
+                </ul>
+            </div>
         </div>
-
-        <div class="form-group mt-20">
-            <label for="id_password" class="fw-bold">Пароль</label>
-            {{ form.password }}
-        </div>
-
-        <button type="submit" class="btn w-100 mt-30">Войти</button>
-    </form>
-
-    <div class="mt-30 text-left">
-        <p class="fw-bold text-small">Инструкция:</p>
-        <ul class="text-small text-muted">
-            <li>Используйте табельный номер как логин.</li>
-            <li>При первом входе введите стандартный пароль.</li>
-            <li>Система потребует сменить пароль после входа.</li>
-        </ul>
     </div>
 </div>
 {% endblock %}

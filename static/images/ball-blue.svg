@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="_Слой_1" data-name="Слой_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 38 38">
+  <defs>
+    <style>
+      .cls-1 {
+        font-family: Bahnschrift, Bahnschrift;
+        font-size: 19.34px;
+        font-variation-settings: 'wght' 400, 'wdth' 100;
+      }
+
+      .cls-1, .cls-2 {
+        fill: #002856;
+      }
+    </style>
+  </defs>
+  <path class="cls-2" d="M19,0C8.51,0,0,8.51,0,19s8.51,19,19,19,19-8.51,19-19S29.49,0,19,0ZM19,35c-8.84,0-16-7.16-16-16S10.16,3,19,3s16,7.16,16,16-7.16,16-16,16Z"/>
+  <text class="cls-1" transform="translate(12.84 24.65)"><tspan x="0" y="0">Б</tspan></text>
+</svg>

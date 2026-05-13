@@ -3,130 +3,104 @@
 {% block title %}Личный кабинет | ИРЗ Бонус{% endblock %}
 
 {% block content %}
-<div class="shop-layout">
-    
-    <aside class="sidebar">
-        <h3 class="mb-10">Ваш статус</h3>
-        <div class="mb-20">
-            <p class="text-small text-muted">Должность:</p>
-            <p class="fw-bold">{{ employee.position|default:"Не указана" }}</p>
-        </div>
-        
-        <div class="mb-20">
-            <p class="text-small text-muted">Тип сотрудника:</p>
-            <p class="fw-bold">
-                {% if employee.is_intern %}Стажер{% else %}Штатный сотрудник{% endif %}
-            </p>
-        </div>
+<div class="profile-container">
 
-        {% if employee.is_intern %}
-        <div class="mb-20">
-            <p class="text-small text-muted">Наставник:</p>
-            <p class="fw-bold">{{ employee.mentor.get_full_name|default:"Не назначен" }}</p>
-        </div>
-        {% endif %}
-
-        <div class="mt-30">
-            <p class="text-small text-muted">Бонус за профиль:</p>
-            <p class="fw-bold">
-                {% if employee.profile_bonus_received %}Получен{% else %}Не получен{% endif %}
-            </p>
-        </div>
-    </aside>
-
-    <main>
-        <div class="login-card w-100 mt-0 text-left">
-            <h2 class="mb-10">Редактирование профиля</h2>
-            <p class="text-muted mb-30">Актуальные данные необходимы для корректного начисления бонусов и выдачи мерча.</p>
-
-            {% if messages %}
-                {% for message in messages %}
-                    <div class="error-message text-center">
-                        {{ message }}
-                    </div>
-                {% endfor %}
+    <div class="glass-card profile-header-card">
+        <div class="profile-user-info">
+            <h2 class="auth-title">Личный кабинет</h2>
+            <div class="status-badges">
+                <span class="badge">{{ employee.position|default:"Должность не указана" }}</span>
+                <span class="badge">{% if employee.is_intern %}Стажер{% else %}Штатный сотрудник{% endif %}</span>
+                <span class="badge {% if employee.profile_bonus_received %}badge-success{% else %}badge-dim{% endif %}">
+                    {% if employee.profile_bonus_received %}
+                        ✓ Бонус за профиль получен
+                    {% else %}
+                        Бонус за профиль не получен
+                    {% endif %}
+                </span>
+            </div>
+            {% if not employee.profile_bonus_received %}
+                <p class="text-small text-muted mt-10">Заполните данные для получения бонусных баллов.</p>
             {% endif %}
-
-            <form method="post">
-                {% csrf_token %}
-                
-                <div class="form-group">
-                    <label class="fw-bold">Табельный номер</label>
-                    <input type="text" value="{{ employee.username }}" readonly class="form-control" style="background-color: #f5f5f5; cursor: not-allowed;">
-                </div>
-
-                <div class="form-group mt-10">
-                    <label class="fw-bold">Фамилия</label>
-                    {{ form.last_name }}
-                </div>
-
-                <div class="form-group mt-10">
-                    <label class="fw-bold">Имя</label>
-                    {{ form.first_name }}
-                </div>
-
-                <div class="form-group mt-10">
-                    <label class="fw-bold">Отчество</label>
-                    {{ form.middle_name }}
-                </div>
-
-                <div class="product-grid mt-10" style="grid-template-columns: 1fr 1fr;">
-                    <div class="form-group">
-                        <label class="fw-bold">Дата рождения</label>
-                        {{ form.date_of_birth }}
-                    </div>
-                    <div class="form-group">
-                        <label class="fw-bold">Телефон</label>
-                        {{ form.phone }}
-                    </div>
-                </div>
-
-                <div class="form-group mt-10">
-                    <label class="fw-bold">Отдел</label>
-                    {{ form.department }}
-                </div>
-
-                <div class="form-group mt-10">
-                    <label class="fw-bold">Должность</label>
-                    {{ form.position }}
-                </div>
-
-                <button type="submit" class="btn w-100 mt-30">Сохранить изменения</button>
-            </form>
         </div>
-        <div class="orders-section">
-    <h3>Мои заказы</h3>
-    {% if orders %}
-        <table class="orders-table">
-            <thead>
-                <tr>
-                    <th>№</th>
-                    <th>Дата</th>
-                    <th>Товары</th>
-                    <th>Сумма</th>
-                    <th>Статус</th>
-                </tr>
-            </thead>
-            <tbody>
+    </div>
+
+    <div class="glass-card profile-form-container">
+        <h3 class="mb-20">Редактирование данных</h3>
+        <form method="post" class="auth-form-grid">
+            {% csrf_token %}
+            
+            <div class="form-group">
+                <label>ТАБЕЛЬНЫЙ НОМЕР</label>
+                <input type="text" value="{{ employee.username }}" readonly class="readonly-input">
+            </div>
+            <div class="form-group" style="display: none;">
+                {{ form.department }}
+                {{ form.position }}
+            </div>
+            <div class="form-group">
+                <label>ФАМИЛИЯ</label>
+                {{ form.last_name }}
+            </div>
+            <div class="form-group">
+                <label>ИМЯ</label>
+                {{ form.first_name }}
+            </div>
+            <div class="form-group">
+                <label>ОТЧЕСТВО</label>
+                {{ form.middle_name }}
+            </div>
+            <div class="form-group">
+                <label>ДАТА РОЖДЕНИЯ</label>
+                {{ form.date_of_birth }}
+            </div>
+            <div class="form-group">
+                <label>ТЕЛЕФОН</label>
+                {{ form.phone }}
+            </div>
+            <div class="form-group full-width">
+                <label>ОТДЕЛ</label>
+                {{ form.department }}
+            </div>
+            <div class="full-width mt-10">
+                <button type="submit" class="btn-auth">Сохранить изменения</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="orders-section mt-30">
+        <h3 class="mb-20">История заказов</h3>
+        {% if orders %}
+            <div class="orders-cards-grid">
                 {% for order in orders %}
-                    <tr>
-                        <td>{{ order.id }}</td>
-                        <td>{{ order.created_at|date:"d.m.Y H:i" }}</td>
-                        <td>
-                            {% for item in order.items.all %}
-                                {{ item.product.name }} ({{ item.quantity }} шт.){% if not forloop.last %}, {% endif %}
-                            {% endfor %}
-                        </td>
-                        <td>{{ order.total_price }} б.</td>
-                        <td><span class="status-{{ order.status|lower }}">{{ order.get_status_display }}</span></td>
-                    </tr>
+                <div class="glass-card order-card">
+                    <div class="order-card-header">
+                        <span class="order-number">Заказ #{{ order.id }}</span>
+                        <span class="status-pill status-{{ order.status|lower }}">{{ order.get_status_display }}</span>
+                    </div>
+                    <div class="order-card-body">
+                        {% for item in order.items.all %}
+                            <div class="order-item-row">
+                                <span>{{ item.product.name }}</span>
+                                <span class="fw-bold">{{ item.quantity }} шт.</span>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <div class="order-card-footer">
+                        <span class="text-muted">{{ order.created_at|date:"d.m.Y" }}</span>
+                        <span class="order-total-price">
+                            {{ order.total_price }} 
+                            <img src="/static/images/ball-blue.svg" class="currency-icon">
+                        </span>
+                    </div>
+                </div>
                 {% endfor %}
-            </tbody>
-        </table>
-    {% else %}
-        <p>У вас пока нет заказов.</p>
-    {% endif %}
-</div>
-    </main>
+            </div>
+        {% else %}
+            <div class="glass-card p-30 text-center">
+                <p class="text-muted">У вас пока нет заказов.</p>
+            </div>
+        {% endif %}
+    </div>
 </div>
 {% endblock %}

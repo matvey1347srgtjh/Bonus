@@ -1,5 +1,6 @@
 from django.views.generic import ListView
 from django.db.models import Q
+from django.db.models.functions import Lower
 from .models import Product, Category
 
 class MerchListView(ListView):
@@ -12,8 +13,9 @@ class MerchListView(ListView):
         
         query = self.request.GET.get('q')
         if query:
-            queryset = queryset.filter(
-                Q(name__icontains=query) | Q(description__icontains=query)
+            query = query.lower()
+            queryset = queryset.annotate(lower_name=Lower('name')).filter(
+                Q(lower_name__contains=query) | Q(description__icontains=query)
             )
             
         cat_slug = self.request.GET.get('category')

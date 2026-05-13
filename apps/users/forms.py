@@ -14,7 +14,10 @@ class ProfileUpdateForm(forms.ModelForm):
             'position'
         ]
         widgets = {
-            'date_of_birth': forms.DateInput(attrs={'type': 'date'}),
+            'date_of_birth': forms.DateInput(
+                attrs={'type': 'date'}, 
+                format='%Y-%m-%d'
+            ),
         }
 
     def __init__(self, *args, **kwargs):
