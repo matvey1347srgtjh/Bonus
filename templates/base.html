@@ -15,7 +15,11 @@
     <div class="bg-glow-2"></div>
 
     <header class="main-header">
-      <div class="logo">ИРЗ<span>БОНУС</span></div>
+      <a href="{% url 'merch:index' %}" class="logo-wrapper">
+        <img src="{% static 'images/logo.svg' %}" alt="ИРЗ Бонус" class="main-logo-img">
+        <div class="logo-text">ИРЗ<span>БОНУС</span></div>
+      </a>
+
       <nav class="header-nav">
         {% if user.is_authenticated %}
         <div class="nav-links">
@@ -50,7 +54,10 @@
 <footer class="main-footer glass-footer">
     <div class="footer-grid">
         <div class="footer-section logo-area">
-            <div class="logo">ИРЗ<span>БОНУС</span></div>
+            <div class="logo-wrapper">
+                <img src="{% static 'images/logo.svg' %}" alt="ИРЗ Бонус" class="main-logo-img">
+                <div class="logo-text">ИРЗ<span>БОНУС</span></div>
+            </div>
             <p class="footer-tagline">Система лояльности сотрудников</p>
         </div>
 
