@@ -22,6 +22,8 @@ class Product(models.Model):
     description = models.TextField(verbose_name="Описание")
     price = models.PositiveIntegerField(verbose_name="Цена")
     image = models.ImageField(upload_to='merch_images/', blank=True, verbose_name="Изображение")
+    image_2 = models.ImageField(upload_to='merch_images/', blank=True, null=True, verbose_name="Дополнительное изображение")
+    specifications = models.TextField(blank=True, verbose_name="Характеристики", help_text="Например: Материал: 100% хлопок")
     stock = models.PositiveIntegerField(default=0, verbose_name="Количество")
     is_active = models.BooleanField("Активен", default=True)
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата добавления")

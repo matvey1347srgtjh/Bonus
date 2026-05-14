@@ -68,8 +68,8 @@
                             <span class="stock-info">В наличии: {{ product.stock }}</span>
                         </div>
                         
-                        <a href="{% url 'orders:cart_add' product.id %}" class="btn-buy">
-                            В корзину
+                        <a href="{% url 'merch:product_detail' product.pk %}" class="btn-detail">
+                            Подробнее <span>&rarr;</span>
                         </a>
                     </div>
                 </div>

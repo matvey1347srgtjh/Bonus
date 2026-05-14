@@ -1,4 +1,4 @@
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
 from django.db.models import Q
 from django.db.models.functions import Lower
 from .models import Product, Category
@@ -28,3 +28,8 @@ class MerchListView(ListView):
         context = super().get_context_data(**kwargs)
         context['categories'] = Category.objects.all()
         return context
+    
+class ProductDetailView(DetailView):
+    model = Product
+    template_name = 'merch/product_detail.html'
+    context_object_name = 'product'

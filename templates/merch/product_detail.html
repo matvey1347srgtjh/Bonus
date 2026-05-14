@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ product.name }} — ИРЗ Бонус{% endblock %}
+
+{% block content %}
+<div class="product-detail-container">
+    <div class="glass-card product-grid-detail">
+        
+        <div class="product-gallery">
+            <input type="radio" name="gallery-switch" id="img-1" checked class="gallery-input">
+            {% if product.image_2 %}
+                <input type="radio" name="gallery-switch" id="img-2" class="gallery-input">
+            {% endif %}
+
+            <div class="main-display">
+                <img src="{{ product.image.url }}" class="display-img img-1-view" alt="{{ product.name }}">
+                {% if product.image_2 %}
+                    <img src="{{ product.image_2.url }}" class="display-img img-2-view" alt="{{ product.name }} (вид 2)">
+                {% endif %}
+            </div>
+
+            <div class="thumbnails-grid mt-15">
+                <label for="img-1" class="thumb-label">
+                    <img src="{{ product.image.url }}" alt="Превью 1">
+                </label>
+                {% if product.image_2 %}
+                <label for="img-2" class="thumb-label">
+                    <img src="{{ product.image_2.url }}" alt="Превью 2">
+                </label>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="product-info-sidebar">
+            <nav class="breadcrumb">
+                <a href="{% url 'merch:index' %}">Магазин</a> 
+                <span class="sep">/</span> 
+                <a href="?category={{ product.category.slug }}">{{ product.category.name }}</a>
+            </nav>
+            
+            <h1 class="product-title">{{ product.name }}</h1>
+            
+            <div class="product-price-large">
+                {{ product.price }} 
+                <img src="{% static 'images/ball-blue.svg' %}" class="currency-icon-large" alt="баллов">
+            </div>
+
+            <div class="status-badge {% if product.stock > 0 %}status-ok{% else %}status-none{% endif %}">
+                {% if product.stock > 0 %}
+                    <span class="dot"></span> В наличии ({{ product.stock }} шт.)
+                {% else %}
+                    <span class="dot"></span> Нет в наличии
+                {% endif %}
+            </div>
+
+            <div class="info-section mt-30">
+                <h3>Описание</h3>
+                <p class="description-text">{{ product.description }}</p>
+            </div>
+
+            {% if product.specifications %}
+            <div class="info-section mt-20">
+                <h3>Характеристики</h3>
+                <div class="specs-box">
+                    {{ product.specifications|linebreaksbr }}
+                </div>
+            </div>
+            {% endif %}
+
+            <div class="meta-info mt-20">
+                <span>Добавлен: {{ product.created_at|date:"d.m.Y" }}</span>
+            </div>
+
+            {% if product.stock > 0 %}
+            <form action="{% url 'orders:cart_add' product.id %}" method="post" class="mt-30">
+                {% csrf_token %}
+                <button type="submit" class="btn-buy-large">
+                    Добавить в корзину
+                </button>
+            </form>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
