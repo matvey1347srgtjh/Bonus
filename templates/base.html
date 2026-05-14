@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="{% static 'style/style.css' %}" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0" />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   </head>
   <body id="top">
@@ -15,7 +16,7 @@
     <div class="bg-glow-2"></div>
 
     <header class="main-header">
-      <a href="{% url 'merch:index' %}" class="logo-wrapper">
+      <a href="{% url 'merch:home' %}" class="logo-wrapper">
         <img src="{% static 'images/logo.svg' %}" alt="ИРЗ Бонус" class="main-logo-img">
         <div class="logo-text">ИРЗ<span>БОНУС</span></div>
       </a>
@@ -23,10 +24,11 @@
       <nav class="header-nav">
         {% if user.is_authenticated %}
         <div class="nav-links">
-          <a href="{% url 'merch:index' %}" class="nav-item {% if request.resolver_match.view_name == 'merch:index' %}active{% endif %}">Магазин</a>
-          <a href="{% url 'orders:cart_detail' %}" class="nav-item {% if request.resolver_match.view_name == 'orders:cart_detail' %}active{% endif %}">
-            Корзина <span class="cart-badge">{% if request.session.cart %}{{ request.session.cart|length }}{% else %}0{% endif %}</span>
-          </a>
+        <a href="{% url 'merch:home' %}" class="nav-item {% if request.resolver_match.view_name == 'merch:home' %}active{% endif %}">Главная</a>
+        <a href="{% url 'merch:index' %}" class="nav-item {% if request.resolver_match.view_name == 'merch:index' %}active{% endif %}">Магазин</a>
+        <a href="{% url 'orders:cart_detail' %}" class="nav-item {% if request.resolver_match.view_name == 'orders:cart_detail' %}active{% endif %}">
+          Корзина <span class="cart-badge">{% if request.session.cart %}{{ request.session.cart|length }}{% else %}0{% endif %}</span>
+        </a>
           <a href="{% url 'users:profile' %}" class="nav-item user-pill {% if request.resolver_match.view_name == 'users:profile' %}active{% endif %}">
             <span class="username">{{ user.username }}</span>
             <span class="balance">
@@ -64,6 +66,7 @@
         <div class="footer-section links-area">
             <h4>Навигация</h4>
             <a href="{% url 'merch:index' %}">Магазин</a>
+            <a href="{% url 'merch:home' %}">Главная</a>
             <a href="{% url 'orders:cart_detail' %}">Корзина</a>
             {% if user.is_staff %}
                 <a href="/admin/">Панель управления</a>
@@ -72,7 +75,7 @@
 
         <div class="footer-section profile-area">
             <h4>Личный кабинет</h4>
-            <a href="{% url 'users:profile' %}">История заказов</a>
+            <a href="{% url 'users:profile' %}#orders-history">История заказов</a>
             <a href="#top" class="scroll-link">Вернуться наверх</a>
         </div>
     </div>

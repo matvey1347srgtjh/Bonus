@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Главная — ИРЗ Бонус{% endblock %}
+
+{% block content %}
+<div class="home-container">
+    
+    <section class="css-slider-wrapper">
+        <input type="radio" name="slider" id="s-1" checked>
+        <input type="radio" name="slider" id="s-2">
+        <input type="radio" name="slider" id="s-3">
+
+        <div class="slides">
+            <div class="slide slide-1">
+                <div class="slide-content">
+                    <h1>Добро пожаловать в ИРЗ<span>БОНУС</span></h1>
+                    <p>Твои достижения — твоя валюта. Работай эффективно и меняй бонусы на крутой мерч.</p>
+                    <a href="{% url 'merch:index' %}" class="btn-buy-large" style="max-width: 250px;">В магазин</a>
+                </div>
+            </div>
+            <div class="slide slide-2">
+                <div class="slide-content">
+                    <h1>Новые поступления</h1>
+                    <p>Худи, термокружки и канцелярия с символикой завода уже в каталоге.</p>
+                    <a href="{% url 'merch:index' %}" class="btn-buy-large" style="max-width: 250px;">Смотреть новинки</a>
+                </div>
+            </div>
+            <div class="slide slide-3">
+                <div class="slide-content">
+                    <h1>Копи и трать</h1>
+                    <p>Проверяй баланс в личном кабинете и выбирай лучшее из нашей коллекции.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="slider-controls">
+            <label for="s-1"></label>
+            <label for="s-2"></label>
+            <label for="s-3"></label>
+        </div>
+    </section>
+
+<section class="info-grid mt-50">
+    <div class="glass-card info-card">
+        <div class="info-icon">
+            <span class="material-symbols-rounded">diamond</span>
+        </div>
+        <h2>Что это?</h2>
+        <p><strong>ИРЗ Бонус</strong> — это внутренняя система поощрения сотрудников Ижевского радиозавода. Мы ценим ваш вклад и хотим, чтобы каждый чувствовал отдачу.</p>
+    </div>
+
+    <div class="glass-card info-card">
+        <div class="info-icon">
+            <span class="material-symbols-rounded">ads_click</span>
+        </div>
+        <h2>Для чего?</h2>
+        <p>Система создана для повышения вовлеченности и мотивации. Получайте баллы за выполнение KPI, участие в проектах и инициативность.</p>
+    </div>
+
+    <div class="glass-card info-card">
+        <div class="info-icon">
+            <span class="material-symbols-rounded">rocket</span>
+        </div>
+        <h2>Как пользоваться?</h2>
+        <p>Всё просто: заходи в каталог, выбирай товар, добавляй в корзину. Мы спишем баллы с твоего кошелька и подготовим заказ к выдаче.</p>
+    </div>
+</section>
+{% endblock %}

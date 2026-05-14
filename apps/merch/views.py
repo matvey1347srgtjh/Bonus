@@ -1,7 +1,10 @@
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, TemplateView
 from django.db.models import Q
 from django.db.models.functions import Lower
 from .models import Product, Category
+
+class HomeTemplateView(TemplateView):
+    template_name = 'merch/home.html'
 
 class MerchListView(ListView):
     model = Product
